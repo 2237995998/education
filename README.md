@@ -1,2 +1,2 @@
 # education
-springboot+shiro+vue实现的简易教务系统
+springboot+shiro+vue 实现的前后端分离简易教务系统
