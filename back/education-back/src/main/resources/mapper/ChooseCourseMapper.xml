@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ye.back.mapper.ChooseCourseMapper">
+    <sql id="select">
+        user_id, course_id, usual_grade, end_grade, total_grade, choose_status,is_pass
+    </sql>
+    <sql id="insert">
+        user_id, course_id, usual_grade, end_grade, total_grade, choose_status,is_pass
+    </sql>
+
+    <delete id="deleteChooseCourse" >
+        delete from choose_course
+        where user_id = #{userId} and course_id = #{courseId}
+    </delete>
+    <select id="selectChooseCourseByCourseIdUserId" resultType="com.ye.back.entity.ChooseCourse">
+        select <include refid="select"></include>
+        from choose_course
+        where user_id = #{userId} and course_id = #{courseId}
+    </select>
+
+    <insert id="insertChooseCourse">
+        insert into choose_course(user_id, course_id)
+        values (#{userId}, #{courseId})
+    </insert>
+
+
+    <update id="updateChooseCourse">
+        update choose_course
+        set usual_grade = #{usualGrade}, end_grade = #{endGrade}, choose_status = #{chooseStatus}
+        where user_id = #{userId} and course_id = #{courseId}
+    </update>
+</mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ye.back.mapper.UserMapper">
+
+    <sql id="select">
+        user_id, username, password, salt, nickname, school_id, sex, tel, student_class
+    </sql>
+    <select id="getUserByUsername" resultType="com.ye.back.entity.User">
+        select <include refid="select"/>
+        from user
+        where username = #{username}
+    </select>
+    <select id="lookPerson" resultType="com.ye.back.entity.User">
+        select distinct user_id, username, nickname
+        from user natural join user_role natural join role
+        where 1
+        <if test="username">
+            and username = #{username}
+        </if>
+        <if test="roleName">
+            and role_name = #{roleName}
+        </if>
+    </select>
+    <select id="getStudentListByCourseId" resultType="com.ye.back.entity.User">
+        select <include refid="select"></include>
+        from user natural join choose_course
+        where course_id = #{courseId}
+    </select>
+    <select id="getAllTeachersBySchoolId" resultType="com.ye.back.entity.User">
+        select <include refid="select"></include>
+        from user natural join user_role
+        where school_id = #{schoolId} and role_id = 2
+    </select>
+</mapper>

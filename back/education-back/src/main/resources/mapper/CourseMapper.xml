@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ye.back.mapper.CourseMapper">
+
+    <sql id="select">
+        course_id, course_code, course_name, course_type, school_id, teacher_id, course_status, course_term_id, course_term, course_time, course_place, course_class, course_credit, usual_weight, end_weight
+    </sql>
+    <select id="getThisCourses" resultType="com.ye.back.entity.Course" >
+        select A.course_id, A.course_code, A.course_name, A.course_type, A.school_id, A.teacher_id, A.course_status, A.course_term, A.course_time, A.course_place, A.course_class, A.course_credit, A.usual_weight, A.end_weight
+        from course A
+        where course_status = 1 and not exists(select * from choose_course where user_id = #{userId} and course_id = A.course_id)
+    </select>
+    <select id="getChooseCourseResult" resultType="com.ye.back.entity.Course" >
+        select course.course_id, course_code, course_name, course_type, school_id, teacher_id, course_status, course_term_id, course_term, course_time, course_place, course_class, course_credit, usual_weight, end_weight
+        from course, choose_course, term
+        where course.course_id = choose_course.course_id and
+        course.course_term_id = term.term_id and
+        term_status = 1 and choose_status = 0 and user_id = #{userId}
+    </select>
+    <select id="getHistoryCourses" resultType="com.ye.back.entity.Course">
+        select <include refid="select"></include>
+        from course natural join choose_course
+        where user_id = #{userId}
+        <if test="term!=null">
+            and course_term_id = #{term}
+        </if>
+    </select>
+    <select id="getThisStartCourses" resultType="com.ye.back.entity.Course">
+        select <include refid="select"></include>
+        from term, course
+        where term.term_id = course.course_term_id
+        and teacher_id = #{userId} and term_status = 1
+    </select>
+    <select id="getHistoryStartCourses" resultType="com.ye.back.entity.Course">
+        select <include refid="select"></include>
+        from course
+        where teacher_id = #{userId}
+        <if test="term!=null">
+            and course_term_id = #{term}
+        </if>
+    </select>
+    <select id="getAllStartCourses" resultType="com.ye.back.entity.Course">
+        select <include refid="select"></include>
+        from course
+        where 1
+        <if test="schoolId!=null">
+           and school_id = #{schoolId}
+        </if>
+        <if test="term!=null">
+            and course_term_id = #{term}
+        </if>
+    </select>
+    <select id="getThisCoursesHasGrade" resultType="com.ye.back.entity.Course">
+        select A.course_id, A.course_code, A.course_name, A.course_type, A.school_id, A.teacher_id, A.course_status, A.course_term, A.course_time, A.course_place, A.course_class, A.course_credit, A.usual_weight, A.end_weight
+        from course A natural join choose_course B
+        where choose_status = 1 and B.user_id = #{userId}
+    </select>
+
+    <select id="getHistoryGrade" resultType="com.ye.back.entity.Course">
+        select A.course_id, A.course_code, A.course_name, A.course_type, A.school_id, A.teacher_id, A.course_status, A.course_term, A.course_time, A.course_place, A.course_class, A.course_credit, A.usual_weight, A.end_weight
+        from course A natural join choose_course B
+        where choose_status = 1 and B.user_id = #{userId}
+        <if test="term!=null">
+            and course_term_id = #{term}
+        </if>
+    </select>
+
+
+</mapper>

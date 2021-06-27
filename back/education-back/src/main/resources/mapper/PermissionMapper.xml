@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ye.back.mapper.PermissionMapper">
+
+    <sql id="select">
+        permission_id, permission_code, permission_name, father_id, path, is_menu
+    </sql>
+    <select id="selectAllPermissionCodeByUsername" resultType="java.lang.String">
+        select permission_code
+        from user natural join user_role natural join role natural join role_permission natural join permission
+        where username=#{username} and father_id != 0
+    </select>
+    <select id="selectFatherPermissionByUsername" resultType="com.ye.back.entity.Permission">
+        select <include refid="select"></include>
+        from user natural join user_role natural join role natural join role_permission natural join permission
+        where username=#{username} and father_id = 0 and is_menu = 1
+    </select>
+    <select id="selectSubPermissionByFatherId" resultType="com.ye.back.entity.Permission">
+        select <include refid="select"></include>
+        from permission
+        where father_id= #{fatherId} and is_menu = 1
+    </select>
+</mapper>
