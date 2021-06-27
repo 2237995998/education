@@ -246,17 +246,17 @@
                 })
             },
             getTermList() {
-                const _this = this;
                 this.$axios.get("/term/getAll",
                     {
                         headers: {
-                            "Authorization": _this.$store.getters.getToken
+                            "Authorization": this.$store.getters.getToken
                         }
                     }
                 ).then(response => {
                     var data = response.data.data;
-                    _this.options = data.list;
-                    _this.value = data.this;
+                    this.options = data.list;
+                    this.value = data.this;
+                    this.getList();
                 })
             },
             getTeacherList() {
@@ -353,7 +353,6 @@
         }
         ,
         created() {
-            this.getList();
             this.getTermList();
             this.getTeacherList();
         }
