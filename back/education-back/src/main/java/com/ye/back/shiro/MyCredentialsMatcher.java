@@ -1,4 +1,4 @@
-package com.ye.back.config;
+package com.ye.back.shiro;
 
 import com.ye.back.mapper.UserMapper;
 import com.ye.back.token.JwtToken;
