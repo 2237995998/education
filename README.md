@@ -3,10 +3,6 @@
 shiro使用了自定义拦截器和自定义密码验证器。
 数据库中多处使用了触发器。
 
-最近发现b站有一个贩卖毕业设计的up主未经我的允许私自盗取我的视频，这是他盗取视频的链接，
-https://www.bilibili.com/video/BV1Qb4y1m7HV?p=2，
-希望大家可以尊重劳动成果，帮忙举报一下这种违法行为，最好可以封他的号。
-这是我的BVID：BV1xU4y1G7GR。
 请大家认证唯一b站教学视频：https://www.bilibili.com/video/BV1xU4y1G7GR/。
 博客地址：https://blog.csdn.net/weixin_45138601/article/details/118239979。
 其余地址全部都是盗取的。
